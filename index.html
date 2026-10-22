@@ -443,7 +443,7 @@ footer{text-align:center;padding:20px;font-size:.8rem;color:var(--brown);positio
       </article>
       <article class="casefile">
         <div class="tab">CASE FILE · 002</div>
-        <dl><dt>Subject</dt><dd>Om, Class 6</dd><dt>Role</dt><dd>Your friend? Confirm please</dd><dt>Last seen</dt><dd>Halfway through a story</dd><dt>Missing</dt><dd>The ending</dd><dt>Detective</dt><dd>Prajwal</dd></dl>
+        <dl><dt>Subject</dt><dd>Om, Class 6</dd><dt>Role</dt><dd>Your rival, once</dd><dt>Last seen</dt><dd>Halfway through a story</dd><dt>Missing</dt><dd>How and why he made you cry</dd><dt>Detective</dt><dd>Prajwal</dd></dl>
         <span class="stamp">UNSOLVED</span>
       </article>
     </div>
@@ -480,7 +480,7 @@ footer{text-align:center;padding:20px;font-size:.8rem;color:var(--brown);positio
       <label class="field">Tell me the gift you really want…<input type="text" id="giftCustom" maxlength="200" autocomplete="off"></label>
       <label class="field">Anything else you want me to know?<textarea id="giftMore" rows="3" maxlength="500"></textarea></label>
       <label class="field">Your favourite memory of us (optional)<textarea id="favMem" rows="2" maxlength="500"></textarea></label>
-      <label class="field">Now finish the story of Om from Class 6 😄 Who is he, and what happened? (optional)<textarea id="omStory" rows="4" maxlength="800"></textarea></label>
+      <label class="field">Now finish the story of Om from Class 6 😄 How did he make you cry, why did it happen, and why do you have trust issues because of it? Share only what you want to. 💗<textarea id="omStory" rows="5" maxlength="1200"></textarea></label>
       <p class="privacy">💌 Whatever you write here comes straight to me, and only me.</p>
       <div class="row">
         <button class="btn" id="makeWish">Send my wish ♡</button>
@@ -532,7 +532,7 @@ const STORY = [
   {hint:"A feeling I can't explain ♡", sticker:"🌙", text:"Here is something strange.\n\nEven though we met only in Class 12, it feels like I knew you from somewhere before. I can't remember where, but I just know you, as if our souls crossed each other long ago and neither of us ever noticed."},
   {hint:"A sweet surprise ♡", sticker:"🦋", text:"Among all the things this year has brought with it, getting to know you has been one of its sweetest little surprises."},
   {hint:"Our little inside word ♡", sticker:"💭", text:"Your favourite word in the whole world…\n\nSALA. 😄\n\n(Yes, you know exactly what I mean.)"},
-  {hint:"The unfinished story ♡", sticker:"🕵️", text:"Breaking news: a story from Class 6 was never finished.\n\nWho is Om? Your friend? Your rival? The one who ate your lunch? 😂\n\nYou started the story and left me hanging. Please finish it! There is a box for it near the end."},
+  {hint:"The unfinished story ♡", sticker:"🕵️", text:"Breaking news: a story from Class 6 was never finished.\n\nOm was your rival once. Somehow he made you cry, and you never told me how or why. You don't hate him, and you don't like him either. You just have trust issues since then.\n\nYou started the story and left me hanging, and I have been waiting for the sequel like a drama fan. 😂 Please finish it, whenever you feel like it. I'm listening. 💗"},
   {hint:"Looking ahead ♡", sticker:"✨", text:"And now, here we are, celebrating you turning 18. I hope that when you look back on these school days someday, you'll remember the laughter, the little conversations, the ordinary moments, and the people who made this chapter special."},
 ];
 
@@ -816,7 +816,7 @@ $("#makeWish").addEventListener("click",async()=>{
   const gift=$("#giftCustom").value.trim()||chosenGift, st=$("#shareStatus"), btn=$("#makeWish");
   if(!gift){ st.textContent="Please pick a gift idea or type your own first ♡"; return; }
   const more=$("#giftMore").value.trim(), mem=$("#favMem").value.trim(), om=$("#omStory").value.trim();
-  const message=`${CONFIG.name}'s 18th Birthday Gift Wish 🎀\n\nGift she wants: ${gift}\n\nMore about it: ${more||"—"}\n\nFavourite memory of us: ${mem||"—"}\n\nThe story of Om (Class 6): ${om||"—"}\n\nBirthday: ${CONFIG.birthday}`;
+  const message=`${CONFIG.name}'s 18th Birthday Gift Wish 🎀\n\nGift she wants: ${gift}\n\nMore about it: ${more||"—"}\n\nFavourite memory of us: ${mem||"—"}\n\nThe story of Om (Class 6: how and why he made her cry, and her trust issues): ${om||"—"}\n\nBirthday: ${CONFIG.birthday}`;
   btn.disabled=true; btn.textContent="Sending…"; st.textContent="Folding your wish into a tiny paper plane…";
   let ok=false;
   if(WEB3FORMS_KEY){
