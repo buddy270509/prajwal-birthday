@@ -471,7 +471,7 @@ footer{text-align:center;padding:20px;font-size:.8rem;color:var(--brown);positio
     <h2 class="title" id="giftT">Okay, birthday girl… there's one important question left. 🎁</h2>
     <div class="giftbox" id="giftbox" aria-hidden="true"><div class="bowt">🎀</div><div class="lid"></div><div class="rib"></div><div class="base"></div></div>
     <p class="lead">Before I decide what your birthday gift should be, I need to know what would genuinely make you happy.</p>
-    <div style="text-align:center"><button class="btn glow" id="giftBtn">Open your mystery gift box ♡</button></div>
+    <div style="text-align:center"><button class="btn glow" id="giftBtn">Open your mystery gift box ✨</button></div>
 
     <div id="giftReveal">
       <p class="script" style="font-size:1.7rem;text-align:center;margin-top:20px">Your birthday, your choice! I want your gift to be something you'll actually love.</p>
@@ -479,13 +479,13 @@ footer{text-align:center;padding:20px;font-size:.8rem;color:var(--brown);positio
       <div class="opts" id="opts" role="group" aria-label="Gift ideas"></div>
       <label class="field">Tell me the gift you really want…<input type="text" id="giftCustom" maxlength="200" autocomplete="off"></label>
       <label class="field">Anything else you want me to know?<textarea id="giftMore" rows="3" maxlength="500"></textarea></label>
-      <label class="field">Your favourite memory of us (optional)<textarea id="favMem" rows="2" maxlength="500"></textarea></label>
-      <label class="field">Now finish the story of Om from Class 6 😄 How did he make you cry, why did it happen, and why do you have trust issues because of it? Share only what you want to. 💗<textarea id="omStory" rows="5" maxlength="1200"></textarea></label>
-      <label class="field">Ask me anything, apart from the gift 🤍 One question is enough. I will answer it truthfully, without hiding anything.<textarea id="askQ" rows="3" maxlength="600"></textarea></label>
-      <p class="note">And if you'd rather not write it here, you can always text me or just come and ask me directly. 💗</p>
-      <p class="privacy">💌 Whatever you write here comes straight to me, and only me.</p>
+      <label class="field">A favourite memory from our friendship (optional)<textarea id="favMem" rows="2" maxlength="500"></textarea></label>
+      <label class="field">Now finish the story of Om from Class 6 😄 How did he make you cry, why did it happen, and why do you have trust issues because of it? Share only what you want to. 🙂<textarea id="omStory" rows="5" maxlength="1200"></textarea></label>
+      <label class="field">Ask me anything, apart from the gift 🙂 One question is enough. I will answer it truthfully, without hiding anything.<textarea id="askQ" rows="3" maxlength="600"></textarea></label>
+      <p class="note">And if you'd rather not write it here, you can always text me or just come and ask me directly. 🙂</p>
+      <p class="privacy">🔒 Whatever you write here is emailed only to me.</p>
       <div class="row">
-        <button class="btn" id="makeWish">Send my wish ♡</button>
+        <button class="btn" id="makeWish">Send my wish ✨</button>
       </div>
       <p id="shareStatus" aria-live="polite"></p>
     </div>
@@ -554,7 +554,7 @@ const WISHES = [
 const BUD_ICONS = ["🌷","🌸","🌼","⭐","🌺","💗","🦋","🌹","✨"];
 
 // Gift suggestions
-const GIFTS = ["A psychology book of your choice 📚","Something cute and personalised 🎀","A handwritten letter and scrapbook 💌","Something related to psychology 🔎","A little experience or outing 🌷","Something completely different ✨"];
+const GIFTS = ["A psychology book of your choice 📚","Something cute and personalised 🎀","Something handmade by me 🎨","Something related to psychology 🔎","A fun little surprise 🎉","Something completely different ✨"];
 
 
 // The letter (typed out on screen)
@@ -817,7 +817,7 @@ $("#makeWish").addEventListener("click",async()=>{
   const askq=$("#askQ").value.trim();
   if(!gift&&!askq){ st.textContent="Please pick a gift idea or write your question first ♡"; return; }
   const more=$("#giftMore").value.trim(), mem=$("#favMem").value.trim(), om=$("#omStory").value.trim();
-  const message=`${CONFIG.name}'s 18th Birthday Gift Wish 🎀\n\nGift she wants: ${gift||"—"}\n\nMore about it: ${more||"—"}\n\nFavourite memory of us: ${mem||"—"}\n\nThe story of Om (Class 6: how and why he made her cry, and her trust issues): ${om||"—"}\n\nHer question for me (I promised a truthful answer): ${askq||"—"}\n\nBirthday: ${CONFIG.birthday}`;
+  const message=`${CONFIG.name}'s 18th Birthday Gift Wish 🎀\n\nGift she wants: ${gift||"—"}\n\nMore about it: ${more||"—"}\n\nFavourite memory from our friendship: ${mem||"—"}\n\nThe story of Om (Class 6: how and why he made her cry, and her trust issues): ${om||"—"}\n\nHer question for me (I promised a truthful answer): ${askq||"—"}\n\nBirthday: ${CONFIG.birthday}`;
   btn.disabled=true; btn.textContent="Sending…"; st.textContent="Folding your wish into a tiny paper plane…";
   let ok=false;
   if(WEB3FORMS_KEY){
@@ -829,10 +829,10 @@ $("#makeWish").addEventListener("click",async()=>{
   }
   btn.disabled=false;
   if(ok){
-    btn.textContent="Send again ♡"; st.textContent="Your wish is accepted ♡ I will make it happen.";
+    btn.textContent="Send again ✨"; st.textContent="Your wish is accepted ✨ I will make it happen.";
     burst("stars",50); burst("confetti",60); Audio_.chime("gift");
   }else{
-    btn.textContent="Send my wish ♡"; st.textContent="Your wish couldn't reach me this time. Please try once more, or tell me yourself ♡";
+    btn.textContent="Send my wish ✨"; st.textContent="Your wish couldn't reach me this time. Please try once more, or tell me yourself 🙂";
   }
 });
 
