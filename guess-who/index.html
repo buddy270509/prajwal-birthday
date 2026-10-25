@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guess Who Said It</title>
+<meta name="description" content="Send Tejas a message, sign your name, and see if he can guess who said what.">
+<meta name="theme-color" content="#1d1233">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%231d1233'/%3E%3Ctext x='50' y='66' font-size='56' text-anchor='middle'%3E%F0%9F%91%80%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+/* A night-time game page: deep violet background, sticky-note card, one loud yellow accent. */
+:root{
+  --night:#1d1233; --night2:#2b1a4a; --card:#fff7e6; --ink:#2a1840; --soft:#6e5a8a;
+  --pop:#ffd447; --pink:#ff6fae; --mint:#7be0c3; --line:#e6d6b8;
+  --display:'Bagel Fat One','Trebuchet MS',system-ui,sans-serif;
+  --body:'Nunito',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{
+  font-family:var(--body); color:#fff; line-height:1.5;
+  background:var(--night);
+  background-image:
+    radial-gradient(1.5px 1.5px at 20px 30px,#fff8,transparent),
+    radial-gradient(1.5px 1.5px at 90px 80px,#fff6,transparent),
+    radial-gradient(2px 2px at 150px 20px,#ffd44788,transparent),
+    radial-gradient(60% 40% at 80% 0%,#4b2a86 0,transparent 70%),
+    radial-gradient(50% 40% at 0% 100%,#5a1f63 0,transparent 70%);
+  background-size:180px 120px,180px 120px,180px 120px,auto,auto;
+  padding-block:max(28px,env(safe-area-inset-top,0px)) max(40px,env(safe-area-inset-bottom,0px));
+  padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+:focus-visible{outline:3px solid var(--pop);outline-offset:3px;border-radius:10px}
+main{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:18px;align-items:stretch}
+.eyes{font-size:3rem;text-align:center;line-height:1;animation:peek 4s ease-in-out infinite}
+@keyframes peek{0%,90%,100%{transform:translateX(0)}93%{transform:translateX(-6px)}97%{transform:translateX(6px)}}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(2.2rem,10vw,3.2rem);line-height:1.05;text-align:center;color:var(--pop);text-wrap:balance;text-shadow:0 3px 0 #000a}
+.rules{background:#ffffff14;border:2px dashed #ffffff55;border-radius:18px;padding:14px 16px;text-align:center;font-weight:700}
+.rules b{color:var(--pop)}
+.card{position:relative;background:var(--card);color:var(--ink);border-radius:8px 8px 22px 8px;padding:26px 18px 20px;box-shadow:6px 8px 0 #000a;transform:rotate(-.7deg)}
+.card::before{content:"";position:absolute;top:-12px;left:50%;width:90px;height:24px;margin-left:-45px;background:repeating-linear-gradient(45deg,#ff9ec9aa 0 8px,#ffd0e6aa 8px 16px);transform:rotate(3deg)}
+.field{display:block;margin-bottom:16px;font-weight:800;font-size:.95rem}
+.field small{display:block;font-weight:700;color:var(--soft);margin-top:2px}
+input[type=text],textarea{display:block;width:100%;margin-top:8px;padding:12px 14px;border:2.5px solid var(--ink);border-radius:14px;background:#fff;color:var(--ink);font:700 1.05rem var(--body);resize:vertical}
+textarea{min-height:130px}
+input::placeholder,textarea::placeholder{color:#a898bb;font-weight:600}
+input:focus,textarea:focus{outline:none;border-color:var(--pink);box-shadow:0 0 0 4px #ff6fae44}
+.count{text-align:right;font-size:.8rem;font-weight:700;color:var(--soft);margin-top:4px}
+.save{display:flex;gap:8px;align-items:flex-start;background:#ffe9a8;border-radius:12px;padding:10px 12px;font-weight:700;font-size:.92rem;margin:-6px 0 16px}
+.btn{display:block;width:100%;border:3px solid var(--ink);border-radius:16px;background:var(--pop);color:var(--ink);font:400 1.4rem var(--display);padding:12px 18px 10px;cursor:pointer;box-shadow:0 6px 0 var(--ink);transition:transform .12s,box-shadow .12s}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--ink)}
+.btn[disabled]{opacity:.65;cursor:default}
+.btn.alt{background:#fff;font-size:1.1rem}
+.status{min-height:1.5em;margin-top:12px;text-align:center;font-weight:800;color:#b3263f}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+#done{display:none;text-align:center}
+#done.show{display:block;animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{from{transform:scale(.6) rotate(-4deg);opacity:0}}
+#done h2{font-family:var(--display);font-weight:400;font-size:2rem;line-height:1.1;color:var(--pink);margin:6px 0 8px}
+#done p{margin-bottom:16px;font-weight:700}
+.foot{text-align:center;font-size:.85rem;font-weight:700;color:#ffffffaa}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <div class="eyes" aria-hidden="true">👀</div>
+  <h1>Guess Who Said It</h1>
+
+  <p class="rules">Send <b>Tejas</b> a message, sign it with your <b>name or Instagram handle</b>, and he'll try to guess who said what. Your name is saved with your message and only he can see it.</p>
+
+  <section class="card" id="formCard" aria-label="Send a message">
+    <form id="f" novalidate autocomplete="off">
+      <label class="field" for="who">Your name or Instagram handle
+        <input type="text" id="who" maxlength="60" placeholder="e.g. @yourhandle" required>
+      </label>
+      <label class="field" for="msg">Your message
+        <small>Say anything fun, funny or sweet. Keep it kind.</small>
+        <textarea id="msg" maxlength="800" placeholder="Type what you really think…" required></textarea>
+        <div class="count" id="cnt">0 / 800</div>
+      </label>
+      <div class="save"><span aria-hidden="true">✍️</span><span>This message will be saved with the name above.</span></div>
+      <input type="text" class="hp" id="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn" id="send" type="submit">Send it 🚀</button>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <section class="card" id="done" aria-live="polite">
+    <div class="eyes" aria-hidden="true">🎉</div>
+    <h2>Sent!</h2>
+    <p>Now Tejas has to guess who you are. 👀</p>
+    <button class="btn alt" id="again" type="button">Send another</button>
+  </section>
+
+  <p class="foot">A just-for-fun game with friends.</p>
+</main>
+
+<script>
+"use strict";
+/* Same Web3Forms key as the birthday card (it only works on buddy270509.github.io).
+   To keep these messages separate, make a new key at web3forms.com and paste it here. */
+const WEB3FORMS_KEY = "de5ffe2f-1e79-461d-9373-2a822ec27265";
+const OWNER = "Tejas";
+
+const $ = s => document.querySelector(s);
+const f = $("#f"), who = $("#who"), msg = $("#msg"), st = $("#status"), btn = $("#send");
+let lastSent = 0;
+
+msg.addEventListener("input", () => { $("#cnt").textContent = msg.value.length + " / 800"; });
+
+f.addEventListener("submit", async e => {
+  e.preventDefault();
+  const name = who.value.trim(), text = msg.value.trim();
+  if (!name){ st.textContent = "Please add your name or Instagram handle first."; who.focus(); return; }
+  if (!text){ st.textContent = "Please write a message first."; msg.focus(); return; }
+  if ($("#botcheck").value){ return; }
+  if (Date.now() - lastSent < 20000){ st.textContent = "Easy there! Wait a few seconds before sending another."; return; }
+
+  btn.disabled = true; btn.textContent = "Sending…"; st.textContent = "";
+  let ok = false;
+  try{
+    const r = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: "Guess Who Said It: new message",
+        from_name: name,
+        message: "From: " + name + "\n\nMessage:\n" + text
+      })
+    });
+    const d = await r.json();
+    ok = !!(d && d.success);
+  }catch(err){}
+  btn.disabled = false; btn.textContent = "Send it 🚀";
+
+  if (ok){
+    lastSent = Date.now();
+    msg.value = ""; $("#cnt").textContent = "0 / 800";
+    $("#formCard").style.display = "none";
+    $("#done").classList.add("show");
+  }else{
+    st.textContent = "That didn't go through. Please try again in a moment.";
+  }
+});
+
+$("#again").addEventListener("click", () => {
+  $("#done").classList.remove("show");
+  $("#formCard").style.display = "";
+  msg.focus();
+});
+</script>
+</body>
+</html>
